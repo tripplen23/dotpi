@@ -13,7 +13,12 @@ Secrets and machine state are in `.gitignore`: `auth.json`, `mcp-auth.json`,
 
 ```bash
 # 1. Clone into place (repo path == config path)
-git clone git@github.com:tripplen23/pi-config.git ~/.pi/agent
+#    --recurse-submodules also fetches extensions/interactive-subagents
+#    (its own repo: tripplen23/pi-interactive-subagents-herdr)
+git clone --recurse-submodules git@github.com:tripplen23/pi-config.git ~/.pi/agent
+
+#    Already cloned without the flag? Fetch the submodule:
+#    git -C ~/.pi/agent submodule update --init --recursive
 
 # 2. Secrets: copy the template and fill in your keys
 cp ~/.pi/agent/env.example.sh ~/.pi/agent/env.sh
@@ -23,8 +28,8 @@ $EDITOR ~/.pi/agent/env.sh
 #    ~/.zshrc  or  ~/.bashrc:
 [ -f ~/.pi/agent/env.sh ] && . ~/.pi/agent/env.sh
 
-# 4. Install the packages listed in settings.json (Caveman, Ponytail,
-#    Cloudflare, Google skills) and the browser extension deps
+# 4. Install the packages listed in settings.json (Caveman, Ponytail) and the
+#    browser extension deps
 pi update --extensions
 cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chromium
 ```
@@ -35,7 +40,8 @@ cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chrom
 |------|------|
 | `settings.json` | default provider/model, `packages` list |
 | `mcp.json` | MCP servers (playwright chrome/webkit, firecrawl, exa). Keys come from `$FIRECRAWL_API_KEY` / `$EXA_API_KEY` |
-| `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/` |
+| `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/` |
+| `extensions/interactive-subagents/` | **git submodule** (repo `pi-interactive-subagents-herdr`); edit in place, commit/push from there |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
 
 ## Skills

@@ -5,7 +5,6 @@
   "defaultModel": "deepseek-v4.1-flash",
   "packages": [
     "git:github.com/juliusbrussee/caveman",
-    "git:github.com/dietrichgebert/ponytail",
-    "git:github.com/tripplen23/pi-interactive-subagents-herdr"
+    "git:github.com/dietrichgebert/ponytail"
   ]
 }
