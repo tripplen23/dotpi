@@ -38,5 +38,20 @@ cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chrom
 | `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/` |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
 
-Skills come from the git packages in `settings.json`; personal skills live in
-`~/.agents/skills/` (not part of this repo).
+## Skills
+
+Pi reads skills from **`~/.agents/skills/`** (shared across Pi, OpenCode,
+Claude Code, and 70+ agents via the [`skills`](https://github.com/vercel-labs/skills)
+CLI) plus the git packages in `settings.json` (Caveman, Ponytail).
+
+`~/.agents/` is **not** in this repo. Reproduce it on a new machine with:
+
+```bash
+npx skills add mattpocock/skills    --skill '*' -g -a pi -a opencode -a claude-code -y
+npx skills add cloudflare/skills    --skill '*' -g -a pi -a opencode -a claude-code -y
+npx skills add google/skills        --skill '*' -g -a pi -a opencode -a claude-code -y
+npx skills update -g -y   # later updates
+```
+
+`~/.agents/.skill-lock.json` records installed sources; the CLI symlinks each
+skill into `~/.claude/skills/` (OpenCode and Pi read `~/.agents/skills/` directly).
