@@ -1,6 +1,10 @@
-# pi-config
+# dotpi
 
-Global [Pi](https://pi.dev) configuration.
+<p align="center">
+  <img src="assets/hero.png" alt="dotpi — global Pi configuration" width="100%">
+</p>
+
+Global [Pi](https://pi.dev) configuration, cloned straight into `~/.pi/agent`.
 
 ## What is personal / ignored
 
@@ -13,8 +17,8 @@ Secrets and machine state are in `.gitignore`: `auth.json`, `mcp-auth.json`,
 ```bash
 # 1. Clone into place (repo path == config path)
 #    --recurse-submodules also fetches extensions/interactive-subagents
-#    (its own repo: tripplen23/pi-interactive-subagents-herdr)
-git clone --recurse-submodules git@github.com:tripplen23/pi-config.git ~/.pi/agent
+#    (its own repo: tripplen23/pi-swarm) and extensions/dictate (pi-talk)
+git clone --recurse-submodules git@github.com:tripplen23/dotpi.git ~/.pi/agent
 
 #    Already cloned without the flag? Fetch the submodule:
 #    git -C ~/.pi/agent submodule update --init --recursive
@@ -49,8 +53,8 @@ brew install sox                  # provides `rec`
 | `settings.json` | default provider/model, `packages` list |
 | `mcp.json` | MCP servers (playwright chrome/webkit, firecrawl, exa). Keys come from `$FIRECRAWL_API_KEY` / `$EXA_API_KEY` |
 | `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/`, `plan-mode/` |
-| `extensions/interactive-subagents/` | **git submodule** (repo `pi-interactive-subagents-herdr`) |
-| `extensions/dictate/` | **git submodule** (repo `pi-dictate-elevenlabs`) — voice dictation, needs `sox` + `$ELEVENLABS_API_KEY` |
+| `extensions/interactive-subagents/` | **git submodule** (repo `pi-swarm`) — async interactive subagents in Herdr panes |
+| `extensions/dictate/` | **git submodule** (repo `pi-talk`) — voice dictation, needs `sox` + `$ELEVENLABS_API_KEY` |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
 
 ## Skills

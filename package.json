@@ -1,5 +1,5 @@
 {
-  "name": "pi-config",
+  "name": "dotpi",
   "private": true,
   "type": "module",
   "description": "Pi config. Dev-only deps so editors can type-check the extensions.",
