@@ -1,7 +1,6 @@
 # pi-config
 
-Global [Pi](https://pi.dev) configuration, versioned so a new machine (Linux) can
-run the same setup. The repo **is** `~/.pi/agent` — clone it there.
+Global [Pi](https://pi.dev) configuration.
 
 ## What is personal / ignored
 
@@ -32,6 +31,10 @@ $EDITOR ~/.pi/agent/env.sh
 #    browser extension deps
 pi update --extensions
 cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chromium
+
+# 5. Editor/type-check deps (optional; removes TS errors in VSCode)
+npm install --prefix ~/.pi/agent
+cd ~/.pi/agent/extensions/interactive-subagents && npm install
 ```
 
 ## Layout

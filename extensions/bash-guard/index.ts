@@ -1,7 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { DynamicBorder, isToolCallEventType } from "@mariozechner/pi-coding-agent";
-import type { SelectItem } from "@mariozechner/pi-tui";
-import { Container, SelectList, Text } from "@mariozechner/pi-tui";
+import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { DynamicBorder, isToolCallEventType } from "@earendil-works/pi-coding-agent";
+import type { SelectItem } from "@earendil-works/pi-tui";
+import { Container, SelectList, Text } from "@earendil-works/pi-tui";
 import { parse as shellParse } from "shell-quote";
 
 type Severity = "high" | "medium";
@@ -300,7 +300,7 @@ function analyzeBashCommand(command: string): Risk | null {
 	// (e.g. `... | head`) no longer prompt.
 	if (hasDestructiveRedirect(command)) {
 		reasons.push("shell output redirection (can overwrite files)");
-		severity = severity === "high" ? "high" : "medium";
+		severity = "medium";
 	}
 
 	// Segment analysis (split on &&, ||, ;)
@@ -318,7 +318,7 @@ function analyzeBashCommand(command: string): Risk | null {
 	return { severity, reasons: uniq };
 }
 
-async function promptRunOrAbort(ctx: any, command: string, risk: Risk): Promise<"run" | "abort" | "always"> {
+async function promptRunOrAbort(ctx: ExtensionContext, command: string, risk: Risk): Promise<"run" | "abort" | "always"> {
 	if (!ctx.hasUI) return "abort";
 
 	const reasonsText = risk.reasons.map((r) => `• ${r}`).join("\n");

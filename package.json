@@ -1,0 +1,13 @@
+{
+  "name": "pi-config",
+  "private": true,
+  "type": "module",
+  "description": "Pi config. Dev-only deps so editors can type-check the extensions.",
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^1.1.0",
+    "@earendil-works/pi-tui": "^1.1.0",
+    "@types/node": "^26.6.5",
+    "@types/shell-quote": "^1.7.5",
+    "typebox": "^1.3.36"
+  }
+}

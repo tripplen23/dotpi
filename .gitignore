@@ -11,6 +11,7 @@ sessions/
 bin/
 git/
 npm/
+node_modules/
 extensions/*/node_modules/
 extensions/*/.profile/
 mcp.log*
