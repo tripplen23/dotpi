@@ -1,0 +1,21 @@
+# Secrets — never commit
+auth.json
+auth.json.*
+mcp-auth.json
+env.sh
+trust.json
+
+# Machine-specific / regenerated
+models-store.json
+sessions/
+bin/
+git/
+npm/
+extensions/*/node_modules/
+extensions/*/.profile/
+mcp.log*
+*.log
+
+# OS junk
+.DS_Store
+**/.DS_Store
