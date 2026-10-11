@@ -35,6 +35,11 @@ cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chrom
 # 5. Editor/type-check deps (optional; removes TS errors in VSCode)
 npm install --prefix ~/.pi/agent
 cd ~/.pi/agent/extensions/interactive-subagents && npm install
+cd ~/.pi/agent/extensions/dictate && npm install
+
+# 6. Voice dictation (extensions/dictate) needs sox + a key
+brew install sox                  # provides `rec`
+# then set ELEVENLABS_API_KEY in env.sh (see env.example.sh)
 ```
 
 ## Layout
@@ -43,8 +48,9 @@ cd ~/.pi/agent/extensions/interactive-subagents && npm install
 |------|------|
 | `settings.json` | default provider/model, `packages` list |
 | `mcp.json` | MCP servers (playwright chrome/webkit, firecrawl, exa). Keys come from `$FIRECRAWL_API_KEY` / `$EXA_API_KEY` |
-| `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/` |
-| `extensions/interactive-subagents/` | **git submodule** (repo `pi-interactive-subagents-herdr`); edit in place, commit/push from there |
+| `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/`, `plan-mode/` |
+| `extensions/interactive-subagents/` | **git submodule** (repo `pi-interactive-subagents-herdr`) |
+| `extensions/dictate/` | **git submodule** (repo `pi-dictate-elevenlabs`) — voice dictation, needs `sox` + `$ELEVENLABS_API_KEY` |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
 
 ## Skills

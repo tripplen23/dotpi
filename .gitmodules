@@ -1,3 +1,6 @@
 [submodule "extensions/interactive-subagents"]
 	path = extensions/interactive-subagents
 	url = https://github.com/tripplen23/pi-interactive-subagents-herdr.git
+[submodule "extensions/dictate"]
+	path = extensions/dictate
+	url = https://github.com/tripplen23/pi-dictate-elevenlabs.git
