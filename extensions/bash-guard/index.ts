@@ -409,10 +409,13 @@ const HEADLESS_BLOCKED: Array<{ pattern: RegExp; reason: string }> = [
 	{ pattern: /\bgit\s+gc\b[^#\n]*--prune\b/, reason: "prune unreachable objects (git gc --prune)" },
 ];
 
-// Subset of HEADLESS_BLOCKED used as the hard-block floor when bash-guard is
-// disabled in an interactive (main) session. The user explicitly opts into
-// autonomy here, so routine git operations (commit/pull/push) are allowed
-// through; only truly catastrophic / non-recoverable patterns remain blocked.
+// Hard-block floor applied when bash-guard is disabled (autonomous mode).
+// Routine git operations are deliberately allowed through: a hard block cannot
+// tell an unprompted `git push` from one the user just asked for, so it would
+// also refuse work the user explicitly requested. AGENTS.md still forbids
+// committing or pushing without an explicit request — that rule is on the
+// agent, not on this guard. Only catastrophic / non-recoverable patterns stay
+// blocked.
 const MAIN_DISABLED_BLOCKED: Array<{ pattern: RegExp; reason: string }> = HEADLESS_BLOCKED.filter(
 	({ pattern }) => {
 		const src = pattern.source;

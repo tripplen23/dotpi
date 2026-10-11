@@ -63,3 +63,7 @@ Auto-discovered from `~/.pi/agent/extensions/bash-guard/`. Run `/reload` in pi.
 - Scope: `bash` tool calls only (`write`/`edit` and user `!` commands are not intercepted).
 - `--bash-guard-auto-allow`: main-session flag that allows flagged commands when there is no UI
   (e.g. running pi non-interactively). Has no effect in subagent sessions.
+- `--bash-guard-disabled` skips prompting and narrows the floor to catastrophic patterns only:
+  routine git operations (`commit` / `pull` / `push`) pass through. A hard block there would also
+  refuse a push the user explicitly asked for, so the "never commit or push without an explicit
+  request" rule in `AGENTS.md` is enforced by the agent rather than mechanically.
