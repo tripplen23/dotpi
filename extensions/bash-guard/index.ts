@@ -266,6 +266,22 @@ function analyzeSegment(seg: Token[]): Risk | null {
 	return { severity, reasons };
 }
 
+/**
+ * True only when the raw command writes to a real file via `>`/`>>`.
+ * Ignores fd duplication (`2>&1`, `>&2`), `/dev/null` sinks, pipes, and input
+ * redirects — those are routine and should not trigger a confirmation prompt.
+ */
+function hasDestructiveRedirect(command: string): boolean {
+	const re = /(>>?)\s*([^\s;|&<>]+)/g;
+	let m: RegExpExecArray | null;
+	while ((m = re.exec(command))) {
+		const target = m[2];
+		if (target === "/dev/null" || target.startsWith("&")) continue;
+		return true;
+	}
+	return false;
+}
+
 function analyzeBashCommand(command: string): Risk | null {
 	let tokens: Token[];
 	try {
@@ -278,17 +294,13 @@ function analyzeBashCommand(command: string): Risk | null {
 	const reasons: string[] = [];
 	let severity: Severity = "medium";
 
-	// Whole-command operator checks
-	const ops = tokens.filter(isOpToken).map((t) => t.op);
-	if (ops.some((op) => op === ">" || op === ">>" || op === "2>" || op === "2>>")) {
+	// Whole-command operator checks: only flag output redirection that writes to
+	// a real file. Pipes, input redirects, fd duplication (`2>&1`) and
+	// `/dev/null` sinks are routine and are not flagged, so read-only commands
+	// (e.g. `... | head`) no longer prompt.
+	if (hasDestructiveRedirect(command)) {
 		reasons.push("shell output redirection (can overwrite files)");
 		severity = severity === "high" ? "high" : "medium";
-	}
-	if (ops.includes("<")) {
-		reasons.push("shell input redirection (questionable)");
-	}
-	if (ops.includes("|")) {
-		reasons.push("pipe operator (chained commands)");
 	}
 
 	// Segment analysis (split on &&, ||, ;)
@@ -306,7 +318,7 @@ function analyzeBashCommand(command: string): Risk | null {
 	return { severity, reasons: uniq };
 }
 
-async function promptRunOrAbort(ctx: any, command: string, risk: Risk): Promise<"run" | "abort"> {
+async function promptRunOrAbort(ctx: any, command: string, risk: Risk): Promise<"run" | "abort" | "always"> {
 	if (!ctx.hasUI) return "abort";
 
 	const reasonsText = risk.reasons.map((r) => `• ${r}`).join("\n");
@@ -315,10 +327,15 @@ async function promptRunOrAbort(ctx: any, command: string, risk: Risk): Promise<
 
 	const items: SelectItem[] = [
 		{ value: "run", label: "Run", description: "Execute the command" },
+		{
+			value: "always",
+			label: "Always allow (this session)",
+			description: "Run, and stop asking for the rest of this session (catastrophic commands stay blocked)",
+		},
 		{ value: "abort", label: "Abort", description: "Block this command" },
 	];
 
-	const choice = await ctx.ui.custom<"run" | "abort">((tui, theme, _kb, done) => {
+	const choice = await ctx.ui.custom<"run" | "abort" | "always">((tui, theme, _kb, done) => {
 		const container = new Container();
 		container.addChild(new DynamicBorder((s: string) => theme.fg("warning", s)));
 		container.addChild(new Text(theme.fg("warning", theme.bold("Potentially destructive bash command")), 1, 0));
@@ -332,7 +349,7 @@ async function promptRunOrAbort(ctx: any, command: string, risk: Risk): Promise<
 			noMatch: (t) => theme.fg("warning", t),
 		});
 
-		list.onSelect = (item) => done(item.value as "run" | "abort");
+		list.onSelect = (item) => done(item.value as "run" | "abort" | "always");
 		list.onCancel = () => done("abort");
 		container.addChild(list);
 
@@ -539,6 +556,20 @@ export default function (pi: ExtensionAPI) {
 
 		const choice = await promptRunOrAbort(ctx, command, risk);
 		if (choice === "run") return;
+		if (choice === "always") {
+			disabled = true;
+			const { theme } = ctx.ui;
+			const badge = theme.bg(
+				"toolErrorBg",
+				theme.bold(theme.fg("error", " ⚠ BG OFF ")),
+			);
+			ctx.ui.setStatus(BASH_GUARD_STATUS_KEY, badge);
+			ctx.ui.notify(
+				"bash-guard: always-allow for this session. Catastrophic operations are still hard-blocked. Run /bash-guard to re-enable.",
+				"warning",
+			);
+			return;
+		}
 
 		recentlyAborted.set(command, now);
 		return {
