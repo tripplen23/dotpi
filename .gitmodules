@@ -1,6 +1,6 @@
-[submodule "extensions/interactive-subagents"]
-	path = extensions/interactive-subagents
+[submodule "extensions/pi-swarm"]
+	path = extensions/pi-swarm
 	url = https://github.com/tripplen23/pi-swarm.git
-[submodule "extensions/dictate"]
-	path = extensions/dictate
+[submodule "extensions/pi-talk"]
+	path = extensions/pi-talk
 	url = https://github.com/tripplen23/pi-talk.git

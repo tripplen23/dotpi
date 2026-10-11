@@ -16,8 +16,8 @@ Secrets and machine state are in `.gitignore`: `auth.json`, `mcp-auth.json`,
 
 ```bash
 # 1. Clone into place (repo path == config path)
-#    --recurse-submodules also fetches extensions/interactive-subagents
-#    (its own repo: tripplen23/pi-swarm) and extensions/dictate (pi-talk)
+#    --recurse-submodules also fetches extensions/pi-swarm and extensions/pi-talk
+#    (their own repos: tripplen23/pi-swarm, tripplen23/pi-talk)
 git clone --recurse-submodules git@github.com:tripplen23/dotpi.git ~/.pi/agent
 
 #    Already cloned without the flag? Fetch the submodule:
@@ -38,10 +38,10 @@ cd ~/.pi/agent/extensions/browser && npm install && npx playwright install chrom
 
 # 5. Editor/type-check deps (optional; removes TS errors in VSCode)
 npm install --prefix ~/.pi/agent
-cd ~/.pi/agent/extensions/interactive-subagents && npm install
-cd ~/.pi/agent/extensions/dictate && npm install
+cd ~/.pi/agent/extensions/pi-swarm && npm install
+cd ~/.pi/agent/extensions/pi-talk && npm install
 
-# 6. Voice dictation (extensions/dictate) needs sox + a key
+# 6. Voice dictation (extensions/pi-talk) needs sox + a key
 brew install sox                  # provides `rec`
 # then set ELEVENLABS_API_KEY in env.sh (see env.example.sh)
 ```
@@ -53,8 +53,8 @@ brew install sox                  # provides `rec`
 | `settings.json` | default provider/model, `packages` list |
 | `mcp.json` | MCP servers (playwright chrome/webkit, firecrawl, exa). Keys come from `$FIRECRAWL_API_KEY` / `$EXA_API_KEY` |
 | `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/`, `plan-mode/` |
-| `extensions/interactive-subagents/` | **git submodule** (repo `pi-swarm`) — async interactive subagents in Herdr panes |
-| `extensions/dictate/` | **git submodule** (repo `pi-talk`) — voice dictation, needs `sox` + `$ELEVENLABS_API_KEY` |
+| `extensions/pi-swarm/` | **git submodule** — async interactive subagents in Herdr panes |
+| `extensions/pi-talk/` | **git submodule** — voice dictation, needs `sox` + `$ELEVENLABS_API_KEY` |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
 
 ## Skills

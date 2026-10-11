@@ -11,5 +11,5 @@
     "skipLibCheck": true
   },
   "include": ["extensions/**/*.ts"],
-  "exclude": ["node_modules", "extensions/interactive-subagents"]
+  "exclude": ["node_modules", "extensions/pi-swarm", "extensions/pi-talk"]
 }
