@@ -2,7 +2,6 @@
   "lastChangelogVersion": "1.2.0",
   "theme": "old-money",
   "quietStartup": "header",
-  "images": false,
   "terminal": {
     "showTerminalProgress": true
   },

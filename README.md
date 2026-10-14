@@ -50,7 +50,7 @@ brew install sox                  # provides `rec`
 
 | Path | What |
 |------|------|
-| `settings.json` | default provider/model, `theme`, `quietStartup: "header"` (hides the startup resource listing), `images: false` (Pi hardcodes `TERM_PROGRAM=herdr` to the Kitty graphics protocol, which Terminal.app cannot render, so the payload leaks into the input line as text), `packages` list |
+| `settings.json` | default provider/model, `theme`, `quietStartup: "header"` (hides the startup resource listing), `packages` list |
 | `mcp.json` | MCP servers (playwright chrome/webkit, firecrawl, exa). The two HTTP headers read their key by **sourcing `env.sh`** rather than from the ambient environment, so a multiplexer holding a stale environment cannot break them, and rotating a key needs only `/mcp` instead of a restart |
 | `extensions/` | `web-search-fallback.ts` (Exa → Firecrawl → Playwright), `ui/`, `triage/`, `browser/`, `bash-guard/`, `web-fetch/`, `ask-user-question.ts`, `prompt-snippets/`, `plan-mode/` |
 | `env.sh` | secrets, **not committed**; template in `env.example.sh` |
