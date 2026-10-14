@@ -4,3 +4,6 @@
 [submodule "extensions/pi-talk"]
 	path = extensions/pi-talk
 	url = https://github.com/tripplen23/pi-talk.git
+[submodule "themes"]
+	path = themes
+	url = https://github.com/tripplen23/dotpi-theme.git

@@ -3,6 +3,7 @@ auth.json
 auth.json.*
 mcp-auth.json
 env.sh
+env.sh.*
 trust.json
 
 # Machine-specific / regenerated

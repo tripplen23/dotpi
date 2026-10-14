@@ -7,7 +7,8 @@
         "@playwright/mcp@latest",
         "--browser",
         "chrome"
-      ]
+      ],
+      "cwd": "~/.pi/agent"
     },
     "playwright-webkit": {
       "command": "npx",
@@ -16,18 +17,19 @@
         "@playwright/mcp@latest",
         "--browser",
         "webkit"
-      ]
+      ],
+      "cwd": "~/.pi/agent"
     },
     "firecrawl": {
       "url": "https://mcp.firecrawl.dev/v2/mcp",
       "headers": {
-        "Authorization": "Bearer ${FIRECRAWL_API_KEY}"
+        "Authorization": "!. $HOME/.pi/agent/env.sh && echo Bearer $PI_FIRECRAWL_API_KEY"
       }
     },
     "exa": {
       "url": "https://mcp.exa.ai/mcp",
       "headers": {
-        "x-api-key": "${EXA_API_KEY}"
+        "x-api-key": "!. $HOME/.pi/agent/env.sh && echo $PI_EXA_API_KEY"
       }
     }
   }
