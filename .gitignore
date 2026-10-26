@@ -21,3 +21,6 @@ mcp.log*
 # OS junk
 .DS_Store
 **/.DS_Store
+
+# Planner output — work products, not config
+.pi/plans/
