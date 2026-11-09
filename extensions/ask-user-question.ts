@@ -305,6 +305,7 @@ async function askSingleChoice(
 			}
 
 			if (editMode) {
+				editor.focused = true;
 				lines.push("");
 				add(theme.fg("muted", " Write your custom answer:"));
 				for (const line of editor.render(Math.max(1, width - 2))) {
@@ -507,6 +508,7 @@ async function askMultiChoice(
 			}
 
 			if (editMode) {
+				editor.focused = true;
 				lines.push("");
 				add(theme.fg("muted", " Write your custom answer:"));
 				for (const line of editor.render(Math.max(1, width - 2))) {
